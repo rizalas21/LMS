@@ -1,0 +1,74 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id_user  Int     @id @default(autoincrement())
+  email    String  @unique
+  password String
+  role     String
+  siswa    Siswa?  @relation("UserToSiswa") // Define the relation name
+  guru     Guru?   @relation("UserToGuru")  // Define the relation name
+}
+
+model Siswa {
+  id_siswa     Int          @id @default(autoincrement())
+  nama_siswa   String
+  nis          String?      @unique
+  user_id      Int          @unique
+  user         User         @relation("UserToSiswa", fields: [user_id], references: [id_user])
+  pendaftaran  Pendaftaran[]
+  nilai        Nilai[]
+}
+
+model Guru {
+  id_guru   Int      @id @default(autoincrement())
+  nama_guru String
+  nip       String?   @unique
+  user_id   Int      @unique
+  user      User     @relation("UserToGuru", fields: [user_id], references: [id_user])
+  program   Program[]
+}
+
+model Program {
+  id_program   Int          @id @default(autoincrement())
+  nama_program String
+  deskripsi    String
+  thumbnail    String?      
+  guru_id      Int
+  guru         Guru         @relation(fields: [guru_id], references: [id_guru])
+  materi       Materi[]
+  pendaftaran  Pendaftaran[]
+  nilai        Nilai[]
+}
+
+model Materi {
+  id_materi  Int     @id @default(autoincrement())
+  nama_materi String
+  konten      String
+  program_id  Int
+  program     Program @relation(fields: [program_id], references: [id_program])
+}
+
+model Pendaftaran {
+  id_pendaftaran Int       @id @default(autoincrement())
+  siswa_id       Int
+  siswa          Siswa     @relation(fields: [siswa_id], references: [id_siswa])
+  program_id     Int
+  program        Program   @relation(fields: [program_id], references: [id_program])
+  tanggal_daftar DateTime  @default(now()) 
+}
+
+model Nilai {
+  id_nilai   Int     @id @default(autoincrement())
+  nilai      Float   
+  siswa_id   Int
+  siswa      Siswa   @relation(fields: [siswa_id], references: [id_siswa])
+  program_id Int
+  program    Program @relation(fields: [program_id], references: [id_program])
+}
