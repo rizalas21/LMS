@@ -2,6 +2,7 @@ const { PrismaClient } = require("@prisma/client");
 var express = require("express");
 var router = express.Router();
 const jwt = require("jsonwebtoken");
+const AuthenticateToken = require("../middleware/AuthenticateToken");
 
 const prisma = new PrismaClient();
 router.post("/register", async function (req, res) {
@@ -108,5 +109,27 @@ router.post("/login", async function (req, res, next) {
       .json({ message: "Terjadi kesalahan pada server.", error });
   }
 });
+router.get(
+  "/data/user/:id",
+  AuthenticateToken,
+  async function (req, res, next) {
+    try {
+      const { id } = await req.params;
+
+      const rows = await prisma.user.findMany({
+        where: {
+          id_user: Number(id),
+        },
+      });
+
+      return res.json(rows[0]).status(304);
+    } catch (error) {
+      console.log(error);
+      return res
+        .status(500)
+        .json({ message: "Terjadi kesalahan pada server.", error });
+    }
+  }
+);
 
 module.exports = router;

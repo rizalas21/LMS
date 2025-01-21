@@ -22,6 +22,7 @@ import MateriDetail from "./pages/MateriDetail";
 import MateriAdd from "./pages/MateriAdd";
 import MateriEdit from "./pages/MateriEdit";
 import PesertaEdit from "./pages/PesertaEdit";
+import DetailProfile from "./pages/DetailProfile";
 
 function App() {
   const isAuthenticated = localStorage.getItem("token");
@@ -53,6 +54,8 @@ function App() {
                   <Route path="/Pemateri" element={<Guru />} />
                   <Route path="/Setting" element={<Settings />} />
                   <Route path="/Kalender" element={<Kalender />} />
+                  <Route path="/Profile/:id" element={<DetailProfile />} />
+
                   <Route
                     path="*"
                     element={<Navigate to="/Dashboard" replace />}

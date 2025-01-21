@@ -58,7 +58,7 @@ const Dashboard = () => {
     <div className="flex flex-col gap-8 p-8 bg-gray-50">
       <div className="flex justify-between items-center bg-indigo-500 rounded p-6">
         <div className="w-4/5">
-          <h1 className="text-2xl font-bold text-white">
+          <h1 className="text-2xl font-bold text-white hover:text-slate-200">
             {data.length > 0 ? data[0].nama_program : "Loading..."}
           </h1>
           <p className="text-sm text-gray-200">
@@ -66,8 +66,8 @@ const Dashboard = () => {
           </p>
         </div>
         <div
-          className="bg-white text-indigo-500 py-2 px-4 rounded-md cursor-pointer"
-          onClick={() => navigate(`/Program/${data[0].id_program}`)}
+          className="bg-white text-indigo-500 py-2 px-4 rounded-md cursor-pointer hover:bg-slate-200"
+          onClick={() => navigate(`/Materi`)}
         >
           Mulai Belajar
         </div>
@@ -88,11 +88,11 @@ const Dashboard = () => {
                 <div className="bg-white p-6 shadow rounded-md border h-full flex flex-col justify-between">
                   <div className="">
                     <h3
-                      className="text-white font-bold text-lg cursor-pointer bg-cover bg-center p-4 rounded-md h-20 flex items-center justify-center"
+                      className="text-white font-bold text-lg cursor-pointer bg-cover bg-center p-4 rounded-md h-36 flex items-center justify-center"
                       style={{
                         backgroundImage: `url('/images/background-programming.jpeg')`,
                       }}
-                      onClick={() => navigate(`/Program/${program.id_program}`)}
+                      onClick={() => navigate(`/Materi`)}
                     >
                       {program.nama_program}
                     </h3>
@@ -112,7 +112,6 @@ const Dashboard = () => {
         )}
       </section>
 
-      {/* Nilai Peserta */}
       <section>
         <h2 className="text-lg font-semibold text-gray-800 mb-4">
           Nilai Peserta

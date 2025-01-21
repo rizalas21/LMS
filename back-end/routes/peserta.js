@@ -23,14 +23,17 @@ module.exports = function (prisma) {
       res.status(500).json({ message: "Error fetching siswa", error });
     }
   });
-  router.get("/:id", async (req, res) => {
+  router.get("/:id", AuthenticateToken, async (req, res) => {
     const { id } = req.params;
+    console.log(id);
     try {
-      const siswa = await prisma.siswa.findMany({
-        where: { id_siswa: Number(id) },
-        include: { user: true },
+      const siswa = await prisma.siswa.findUnique({
+        where: { id_siswa: parseInt(id) },
       });
-      res.json(siswa[0]);
+      if (!siswa) {
+        return res.status(404).json({ message: "siswa not found" });
+      }
+      res.json(siswa);
     } catch (error) {
       res.status(500).json({ message: "Error fetching siswa", error });
     }

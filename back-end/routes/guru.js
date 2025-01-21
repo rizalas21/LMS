@@ -33,6 +33,7 @@ module.exports = function (prisma) {
 
   router.get("/:id", AuthenticateToken, async (req, res) => {
     const { id } = req.params;
+    console.log(id);
     if (isNaN(id)) {
       return res.status(400).json({ message: "Invalid ID format" });
     }

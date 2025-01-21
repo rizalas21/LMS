@@ -33,6 +33,7 @@ const Login = () => {
 
       localStorage.setItem("user", data.rows.role);
       localStorage.setItem("token", data.token);
+      localStorage.setItem("id", data.rows.id_user);
       setIsLogin(true);
       navigate(0);
       return;

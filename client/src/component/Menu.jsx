@@ -28,7 +28,11 @@ const pesertaPages = [
 ];
 
 const labels = [
-  { title: "Settings", url: "/Settings", icon: faGear },
+  {
+    title: "Profile",
+    url: `/Profile/${localStorage.getItem("id")}`,
+    icon: faGear,
+  },
   { title: "Kalender", url: "/Kalender", icon: faCalendar },
 ];
 
@@ -127,6 +131,7 @@ const Menu = (isShow, setIsShow) => {
           onClick={() => {
             localStorage.setItem("token", "");
             localStorage.setItem("user", "");
+            localStorage.setItem("id", null);
             navigate(0);
           }}
         >
