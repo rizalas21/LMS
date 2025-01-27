@@ -27,9 +27,11 @@ module.exports = function (prisma) {
     const { id } = req.params;
     console.log(id);
     try {
+      console.log("apa sihh: ", id);
       const siswa = await prisma.siswa.findUnique({
-        where: { id_siswa: parseInt(id) },
+        where: { user_id: parseInt(id) },
       });
+      console.log("masuk siswa: ", siswa);
       if (!siswa) {
         return res.status(404).json({ message: "siswa not found" });
       }

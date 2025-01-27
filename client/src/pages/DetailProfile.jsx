@@ -22,15 +22,15 @@ export default function DetailProfile() {
           }
         );
 
+        console.log("apa nihh : ", fetchProfile);
+
         console.log("Data User:", userData);
+        const role = userData.role;
 
-        // Tentukan role berdasarkan data user
-        const role = userData.role; // Misalnya 'guru' atau 'siswa'
-
-        // Sesuaikan URL API berdasarkan role
         const profileEndpoint = role === "guru" ? "guru" : "peserta";
 
-        // Ambil data profil guru atau siswa
+        console.log("profile end point: ", profileEndpoint, id);
+
         const { data: profileData } = await axios.get(
           `http://localhost:3000/api/data/${profileEndpoint}/${id}`,
           {
@@ -108,13 +108,30 @@ export default function DetailProfile() {
           </h2>
           <ul className="mt-4 space-y-2">
             <li>
-              <strong>Nama Guru:</strong> {profile.nama_guru}
+              {role === "guru" ? (
+                <div className="flex gap-2">
+                  <strong>Nama Guru:</strong>
+                  <p>{profile.nama_guru}</p>
+                </div>
+              ) : (
+                <div className="flex gap-2">
+                  <strong>Nama Peserta:</strong>
+                  <p>{profile.nama_siswa}</p>
+                </div>
+              )}
             </li>
             <li>
-              <strong>NIP:</strong> {profile.nip}
-            </li>
-            <li>
-              <strong>User ID:</strong> {profile.user_id}
+              {role === "guru" ? (
+                <div className="flex gap-2">
+                  <strong>NIP:</strong>
+                  <p>{profile.nip}</p>
+                </div>
+              ) : (
+                <div className="flex gap-2">
+                  <strong>NIS:</strong>
+                  <p>{profile.nis}</p>
+                </div>
+              )}
             </li>
           </ul>
         </div>
@@ -140,17 +157,19 @@ export default function DetailProfile() {
         <h2 className="text-lg font-semibold text-gray-600">
           Program Information
         </h2>
-        <ul className="mt-4 space-y-2">
-          {profile.program.map((prog) => (
-            <li key={prog.id_program}>
-              <strong>Nama Program:</strong> {prog.nama_program}
-            </li>
-          ))}
-          <li>
-            <strong>Deskripsi Program:</strong>
-            <p>{profile.program[0].deskripsi}</p>
-          </li>
-        </ul>
+        {role === "guru"
+          ? profile.program.map((prog) => (
+              <ul className="mt-4 space-y-2">
+                <li key={prog.id_program}>
+                  <strong>Nama Program:</strong> {prog.nama_program}
+                </li>
+                <li>
+                  <strong>Deskripsi Program:</strong>
+                  <p>{profile.program[0].deskripsi}</p>
+                </li>
+              </ul>
+            ))
+          : ""}
       </div>
     </div>
   );
